@@ -41,7 +41,7 @@ pipeline {
                 sshagent(credentials : ["deploy-key"]) {
                     sh "ssh -p 20022 -o StrictHostKeyChecking=no test-deploy@${deployHost} \
                      'aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ecrUrl}/${repository}; \
-                      docker rm -f jenkins-docker \
+                      docker rm -f jenkins-docker; \
                       docker run -d -p 80:8080 --name jenkins-docker -t ${ecrUrl}/${repository}:${currentBuild.number};'"
                 }
             }
