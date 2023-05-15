@@ -36,7 +36,7 @@ pipeline {
                 }
             }
         }
-        stage('===== Deploy to Private Server =====') {
+        stage('===== Deploy to Private Server(test-deploy) =====') {
             steps{
                 sshagent(credentials : ["deploy-key"]) {
                     sh "ssh -p 20022 -o StrictHostKeyChecking=no test-deploy@${deployHost} \
