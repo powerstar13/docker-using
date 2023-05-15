@@ -9,12 +9,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Pull Codes from Github'){
+        stage('===== Pull Codes from Github ====='){
             steps{
                 checkout scm
             }
         }
-        stage('Build Codes by Gradle') {
+        stage('===== Build Codes by Gradle =====') {
             steps {
                 sh """
                 cd ${mainDir}
@@ -22,7 +22,7 @@ pipeline {
                 """
             }
         }
-        stage('Build Docker Image by Jib & Push to AWS ECR Repository') {
+        stage('===== Build Docker Image by Jib & Push to AWS ECR Repository =====') {
             steps {
                 withAWS(region:"${region}", credentials:"aws-key") {
                     ecrLogin()
@@ -36,7 +36,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to AWS EC2 VM'){
+        stage('===== Deploy to Private Server =====') {
             steps{
                 sshagent(credentials : ["deploy-key"]) {
                     sh "ssh -p 20022 -o StrictHostKeyChecking=no test-deploy@${deployHost} \
